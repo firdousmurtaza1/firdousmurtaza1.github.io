@@ -1,0 +1,54 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+<section class="p-0">
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-lg-8 col-md-10 mx-auto ">
+                <div class="blog-preview">
+                    {% for post in post.items %}
+                    <h2 style="color: rgb(14, 5, 12);" class="post-title">
+                        {{post.title}}
+                    </h2>
+                    <em class="blog-auth">
+                            Date: <span class="text-info">{{post.date}} </span>Share by: <span class="text-info">{{post.user.first_name}} {{post.user.lastname}}</span>
+                    </em>
+                    <em class="blog-info float-end">
+                       {% if current_user.id == post.user_id%}
+                        <a class="text-info"  href="{{url_for('home.edit_post', id=post.id)}}" > <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;
+                        <a class="text-info"  href="{{url_for('home.delete_post', id=post.id)}}" ><i class="fa fa-trash" aria-hidden="true"></i></a> 
+                        {%endif%} 
+                    </em>
+                    <div class="row mt-3">
+                        <div class="col mx-auto">
+                            <p class="blog-content">
+                                {{post.content}}
+                            </p>
+                        </div>
+                        <div class="col mx-auto">
+                            {% if post.img_filename %}
+                            <img src="{{ url_for('home.display_image', filename=post.img_filename) }}" class="dropzone">  
+                            {%endif%}  
+                        </div>
+                    </div>
+                    
+                    <hr class="divider" />
+                    {%endfor%}
+                </div>
+                Page no >>> {% for page_num in post.iter_pages(left_edge=1,right_edge=1,left_current=2,right_current=3) %} {% if page_num %}
+                <a href="{{url_for('home.post_world',page=page_num)}}"><button style="padding: 2px 3px;" class="btn btn-primary">{{page_num}}</button></a> {% else %} ... {% endif %} {% endfor %}
+            </div>
+            <div class="col-lg-4 col-md-10 mx-auto">
+                <div class="card" style="border-radius: 10px;">
+                    <div class="card-body justify-content-center pt-3">
+                        <h5 class="card-title text-info text-center">About</h5>
+                        <hr class="divider" />
+                        <span class="fs-7">Hello there, This is blogging site, created with ideas to share craft, design, painting, pictures and anything that find as an Art</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+</section>                           
+
+{% endblock %}

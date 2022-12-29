@@ -1,0 +1,110 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+<section class="mb-5">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-6 justify-content-center">
+            <div class="col-lg-8 col-xl-6 text-center">
+                <h2 class="mt-0">Sign Up</h2>
+                <hr class="divider" />
+                <div class="row gx-4 gx-lg-6 justify-content-center mb-5">
+                    <div class="col">
+                        <div class="card" style="border-radius: 10px;">
+                            <div class="card-body pt-0">
+                                <div class="row flash-alerts">
+                                    {% for category, message in get_flashed_messages(with_categories=true) %}
+                                    <div class="col alert alert-{{category}} alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        {{ message }}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <form method="POST" novalidate>
+                                    {{ form.csrf_token }}
+                                    <div class="row">
+                                        <div class="col-xs-12 col-lg-6 md-form required mt-3">
+                                            {{ form.first_name.label(class="form-control-placeholder float-start") }}
+                                            {{form.first_name(class='form-control%s' % (' is-invalid' if form.first_name.errors else '',),placeholder='',**{'aria-label':"First Name",'auto-focus':True})}}
+                                            {% if form.first_name.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.first_name.errors %}
+                                                {{error}}
+                                                {% endfor %}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-xs-12 col-lg-6 md-form mt-3">
+                                            {{ form.last_name.label(class="form-control-placeholder float-start") }}
+                                            {{form.last_name(class='form-control%s' % (' is-invalid' if form.last_name.errors else '',),placeholder='',**{'aria-label':"Last Name",'required':True})}}
+                                            {% if form.last_name.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.last_name.errors %}
+                                                {{error}}
+                                                {% endfor %}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-12 md-form required required mt-3">
+                                            {{ form.email.label(class="form-control-placeholder float-start") }}
+                                            {{form.email(class='form-control%s' % (' is-invalid' if form.email.errors else '',),placeholder='',**{'aria-label':"Email",})}}
+                                            {% if form.email.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.email.errors %}
+                                                {{error}}
+                                                {% endfor %}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                        
+                                        <div class="col-xs-12 col-lg-6 md-form required mt-3">
+                                            {{ form.password.label(class="form-control-placeholder float-start") }}
+                                            {{form.password(class='form-control%s' % (' is-invalid' if form.password.errors else '',),**{'aria-label':"Password"})}}
+                                            <small id="passwordHelpBlock" class="form-text text-muted">
+                                                {{ form.password.description}}
+                                            </small>
+                                            {% if form.password.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.password.errors %}
+                                                {{error}}
+                                                {% endfor %}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-xs-12 col-lg-6 required md-form mt-3">
+                                            {{ form.confirm_password.label(class="form-control-placeholder float-start") }}
+                                            {{form.confirm_password(class='form-control%s' % (' is-invalid' if form.confirm_password.errors else '',),**{'aria-label':"Confirm Password",'required':True})}}
+                        
+                                            {% if form.confirm_password.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.confirm_password.errors %}
+                                                {{error}}
+                                                {% endfor %}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        
+                        
+                                        <div class="col-auto form-row-action mx-auto">
+                                            <div class="md-form mt-5 text-center">
+                                                <a class="btn btn-dark" href="{{url_for('account.login')}}">
+                                                    Cancel
+                                                </a>
+                                                <button class="btn btn-info" type="submit">
+                                                    Register
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

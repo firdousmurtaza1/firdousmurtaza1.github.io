@@ -1,0 +1,8 @@
+Flask==2.2.2
+python-dotenv
+Flask-DebugToolbar
+Flask-SQLAlchemy
+Flask-Login
+cryptography
+wtforms[email]
+Pillow

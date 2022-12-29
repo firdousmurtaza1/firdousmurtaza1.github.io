@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>tHoughtonArt</title>
+        {% include "includes/styles.html" ignore missing with context %}
+        {% block inlinecss %}
+
+        {% endblock %}
+        <!-- Favicon-->
+       
+
+      
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="#page-top"><i class="fa fa-snowflake-o" aria-hidden="true"></i>
+                </a>
+                <a class="navbar-brand" href="{{url_for('home.post_world')}}">Thought on Art</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+
+                        <li class="nav-item"><a class="nav-link" href="{{url_for('account.register')}}">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{url_for('home.post')}}">Share Art</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        {% if current_user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" 
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="{{url_for('account.change_password')}}"><i class="fa fa-key" aria-hidden="true"></i>
+                                  Change Password
+                                </a>
+                                <a class="dropdown-item" href="{{url_for('account.logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                                Logout
+                                </a>
+                              </div>
+
+                        </li>
+                        {%else%}
+                        <li class="nav-item"><a class="nav-link"href="{{url_for('account.login')}}">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i> Login</a></li>
+                        {%endif%}
+                      
+                       
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            
+        </header>
+        <!-- About-->
+      
+    <!--Main layout-->
+        <main class="container-fluid main-container">
+            {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
+            <div class="flash-wrapper" style="display: none">
+            {% for category, message in messages %}
+            <div class="flash_message" data-category='{{ category }}'>
+                {{ message }}
+            </div>
+            {% endfor %}
+            </div>
+            {% endif %} {% endwith %} {% block content %}{% endblock %}
+        </main>
+
+                <!-- Footer-->
+        <footer class="bg-light py-5">
+            <div class="container px-4 px-lg-5"><div class="small text-center text-muted">Copyright &copy; 2022 - Company Name</div></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+       
+        {% include "includes/scripts.html" ignore missing with context %}
+        {% block inlinejs %}
+
+        {% endblock %}
+            
+    </body>
+</html>
