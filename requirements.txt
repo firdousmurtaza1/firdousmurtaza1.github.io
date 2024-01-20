@@ -1,4 +1,4 @@
-Flask==2.2.2
+Flask
 python-dotenv
 Flask-DebugToolbar
 Flask-SQLAlchemy
@@ -6,3 +6,4 @@ Flask-Login
 cryptography
 wtforms[email]
 Pillow
+opencv-python

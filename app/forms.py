@@ -4,6 +4,7 @@ import secrets
 from turtle import title
 from PIL import Image
 import time
+import cv2
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, StringField,ValidationError, TextAreaField
@@ -82,19 +83,38 @@ class PostForm(FlaskForm):
         return self
 
 
-def _image_resize(original_file_path,image_id, image_base, extension):
-    name, ext= image_id.rsplit('.', 1)
-    file_path = os.path.join(
-                original_file_path, image_id)
-    image = Image.open(file_path)
-    wpercent = (image_base/float(image.size[0]))
-    hsize = int((float( image.size[1] )* float( wpercent )))
-    image = image.resize((image_base,hsize), Image.ANTIALIAS)
-    modified_image_path= os.path.join(
-                original_file_path, name +'.'+ extension +'.jpg')
-    image.save(modified_image_path)
-    return
+# def _image_resize(original_file_path,image_id, image_base, extension):
+#     name, ext= image_id.rsplit('.', 1)
+#     file_path = os.path.join(
+#                 original_file_path, image_id)
+#     image = Image.open(file_path)
+#     wpercent = (image_base/float(image.size[0]))
+#     hsize = int((float( image.size[1] )* float( wpercent )))
+#     image = image.resize((image_base,hsize), Image.ANTIALIAS)
+#     modified_image_path= os.path.join(
+#                 original_file_path, name +'.'+ extension +'.jpg')
+#     image.save(modified_image_path)
+#     return 
 
+def _image_resize(original_file_path, image_id, image_base, extension):
+    name, ext = os.path.splitext(image_id)
+    file_path = os.path.join(original_file_path, image_id)
+
+    # Reading the image using OpenCV
+    image = cv2.imread(file_path)
+
+    # Calculating the new dimensions to maintain aspect ratio
+    aspect_ratio = image_base / float(image.shape[1])
+    new_height = int(image.shape[0] * aspect_ratio)
+
+    # Resizing the image using OpenCV
+    resized_image = cv2.resize(image, (image_base, new_height))
+
+    # Constructing the modified image path
+    modified_image_path = os.path.join(original_file_path, f"{name}.{extension}.jpg")
+
+    # Saving the modified image
+    cv2.imwrite(modified_image_path, resized_image)
 
 
 class EditPostForm(FlaskForm):
